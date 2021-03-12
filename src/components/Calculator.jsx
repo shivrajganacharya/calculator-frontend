@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react'
-import '../App.css' 
+import '../App.css'
 import CalculatorService from '../services/CalculatorService'
 
 function Calculator() {
@@ -33,14 +33,39 @@ function Calculator() {
         }
     }
 
-    const calculate = () => {
+    const calculateFactorial = () => {
         try {
-            CalculatorService.getSqroot(result).then(
+            CalculatorService.getFactorial(result).then(
                 res => {setResult(res.data)}
             )
         } catch(error) {
             setResult("Error")
         }
+    }
+
+    const calculateLog = () => {
+        try {
+            CalculatorService.getLog(result).then(
+                res => {setResult(res.data)}
+            )
+        } catch(error) {
+            setResult("Error")
+        }
+    }
+
+    const calculatePower = () => {
+        const nums = result.split("**") 
+        try {
+            CalculatorService.getPower(nums[0], nums[1]).then(
+                res => {setResult(res.data)}
+            )
+        } catch(error) {
+            setResult("Error")
+        }
+    }
+
+    const calculate = () => {
+        setResult(eval(result))
     }
 
     return (
@@ -55,18 +80,18 @@ function Calculator() {
                 <button name="7" onClick={clickHandler}>7</button>
                 <button name="8" onClick={clickHandler}>8</button>
                 <button name="9" onClick={clickHandler}>9</button>
-                <button name="factorial" onClick={clickHandler}>!</button>
+                <button name="factorial" onClick={calculateFactorial}>!</button>
                 <button name="4" onClick={clickHandler}>4</button>
                 <button name="5" onClick={clickHandler}>5</button>
                 <button name="6" onClick={clickHandler}>6</button>
-                <button name="nlog" onClick={clickHandler}>ln</button>
+                <button name="log" onClick={calculateLog}>ln</button>
                 <button name="1" onClick={clickHandler}>1</button>
                 <button name="2" onClick={clickHandler}>2</button>
                 <button name="3" onClick={clickHandler}>3</button>
-                <button name="power" onClick={clickHandler}>pow</button>
+                <button name="**" onClick={clickHandler}>pow</button>
                 <button name="0" onClick={clickHandler}>0</button>
                 <button name="." onClick={clickHandler}>.</button>
-                <button id="result" ></button>
+                <button name="result" id="result" onClick={calculatePower}>Result</button>
             </div>
         </div>
     )
